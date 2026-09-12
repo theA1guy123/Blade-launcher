@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" data-theme="ember" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings &middot; Blade</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/blade.css">
+</head>
+<body>
+<div class="pg"><div class="wrap">
+  <h2 class="ttl"><span class="ac"></span>Settings</h2>
+  <p class="lead">Changes save instantly and apply across every page of the launcher.</p>
+
+  <div class="panel">
+    <h3>Appearance</h3>
+    <div class="row">
+      <div><b>Accent colour</b><span>Recolours buttons, highlights and borders everywhere.</span></div>
+      <div class="swatches" id="themes"></div>
+    </div>
+    <div class="row">
+      <div><b>Light mode</b><span>Switch the launcher from dark to light. Game clients are unaffected.</span></div>
+      <div class="sw" id="swMode" role="switch" tabindex="0"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Navigation</h3>
+    <div class="row">
+      <div><b>Menu position</b><span>Put the launcher menu down the side or across the top.</span></div>
+      <div class="seg" id="navseg">
+        <button data-v="side">Sidebar</button>
+        <button data-v="top">Top bar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Playing</h3>
+    <div class="row">
+      <div><b>Fullscreen on launch</b><span>Go fullscreen automatically when a client starts.</span></div>
+      <div class="sw" id="swFs" role="switch" tabindex="0"></div>
+    </div>
+    <div class="row">
+      <div><b>Fade the Blade bar in game</b><span>Dim the top bar while you play so it stays out of the way.</span></div>
+      <div class="sw" id="swDim" role="switch" tabindex="0"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Storage</h3>
+    <p>Your worlds and in-game settings are saved by each client in this browser. Clearing site data for this page will erase them, so back up any worlds you care about from inside the client first.</p>
+    <div class="row" style="border-top:1px solid var(--line);margin-top:14px">
+      <div><b>Reset launcher settings</b><span>Puts appearance and navigation back to defaults. Worlds are untouched.</span></div>
+      <button class="btn gh" id="reset" style="padding:0 18px">RESET</button>
+    </div>
+  </div>
+
+  <div class="note">Settings are stored in this browser only &mdash; they don't follow you to another device, and they never touch your saved worlds.</div>
+</div></div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i);};
+  var DEF={theme:"ember",mode:"dark",nav:"side",dimbar:true,fslaunch:false};
+  var S=Object.assign({},DEF);
+
+  var THEMES=[
+    {id:"ember", c:"#ff8a1e", n:"Ember"},
+    {id:"ice",   c:"#39b7ff", n:"Ice"},
+    {id:"venom", c:"#5ddc5d", n:"Venom"},
+    {id:"void",  c:"#a97bff", n:"Void"},
+    {id:"blood", c:"#ff4d5a", n:"Blood"}
+  ];
+  THEMES.forEach(function(t){
+    var b=document.createElement("button");
+    b.dataset.v=t.id; b.title=t.n;
+    b.style.background="linear-gradient(180deg,"+t.c+","+t.c+"cc)";
+    b.addEventListener("click",function(){ S.theme=t.id; commit(); });
+    $("themes").appendChild(b);
+  });
+
+  function paint(){
+    document.documentElement.setAttribute("data-theme",S.theme);
+    document.documentElement.setAttribute("data-mode",S.mode);
+    [].forEach.call($("themes").children,function(c){ c.classList.toggle("on",c.dataset.v===S.theme); });
+    [].forEach.call($("navseg").children,function(c){ c.classList.toggle("on",c.dataset.v===S.nav); });
+    $("swMode").classList.toggle("on",S.mode==="light");
+    $("swFs").classList.toggle("on",!!S.fslaunch);
+    $("swDim").classList.toggle("on",!!S.dimbar);
+  }
+  function commit(){
+    try{ localStorage.setItem("blade.settings",JSON.stringify(S)); }catch(e){}
+    paint();
+    try{ parent.postMessage({type:"blade:settings-change",settings:S},"*"); }catch(e){}
+  }
+
+  [].forEach.call($("navseg").children,function(b){
+    b.addEventListener("click",function(){ S.nav=b.dataset.v; commit(); });
+  });
+  function tog(el,key,onVal,offVal){
+    var fn=function(){ S[key]=(S[key]===onVal)?offVal:onVal; commit(); };
+    el.addEventListener("click",fn);
+    el.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); fn(); } });
+  }
+  tog($("swMode"),"mode","light","dark");
+  tog($("swFs"),"fslaunch",true,false);
+  tog($("swDim"),"dimbar",true,false);
+  $("reset").addEventListener("click",function(){ S=Object.assign({},DEF); commit(); });
+
+  // load existing, and accept pushes from the shell
+  try{ var r=localStorage.getItem("blade.settings"); if(r) S=Object.assign(S,JSON.parse(r)); }catch(e){}
+  window.addEventListener("message",function(e){
+    var d=e.data||{};
+    if(d.type==="blade:settings"&&d.settings){ S=Object.assign(S,d.settings); paint(); }
+  });
+  try{ parent.postMessage({type:"blade:get-settings"},"*"); }catch(e){}
+  paint();
+})();
+</script>
+</body>
+</html>

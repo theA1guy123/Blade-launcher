@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en" data-theme="ember" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home &middot; Blade</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/blade.css">
+<style>
+  .hero{padding:min(6vh,46px) 0 30px;display:flex;align-items:center;gap:clamp(12px,2vw,26px)}
+  .hero img{width:clamp(78px,9vw,124px);filter:drop-shadow(0 8px 26px rgba(255,138,30,.5))}
+  .hero h1{margin:0;font-family:var(--dp);font-weight:700;font-size:clamp(42px,7.4vw,92px);line-height:.84;
+    background:linear-gradient(180deg,var(--ink),color-mix(in srgb,var(--ink) 55%, transparent));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lch{font-family:var(--dp);font-weight:600;font-size:clamp(14px,2.2vw,27px);letter-spacing:.5em;margin-top:8px}
+  .hero .sfd{margin-top:13px;display:flex;gap:15px;font-family:var(--dp);font-weight:600;
+    font-size:clamp(11px,1.4vw,15px);letter-spacing:.22em}
+  .hero .sfd i{color:var(--or);font-style:normal}
+  .dock{display:flex;gap:18px;align-items:stretch;flex-wrap:wrap;margin-bottom:26px}
+  .lp{flex:1 1 520px;max-width:780px}
+  .lp .inr{display:flex;align-items:center;gap:15px;padding:15px}
+  .vsel{position:relative;flex:1;min-width:0}
+  .vbtn{width:100%;height:72px;display:flex;align-items:center;gap:15px;padding:0 17px;cursor:pointer;text-align:left;
+    background:rgba(127,127,127,.10);border:1.5px solid var(--or);border-radius:12px}
+  .vbtn img{width:46px;height:46px;border-radius:7px;image-rendering:pixelated;flex:0 0 auto}
+  .vi{flex:1;min-width:0}
+  .vi b{display:block;font-weight:600;font-size:25px;line-height:1.05}
+  .vi span{display:block;font-size:13.5px;color:var(--dim2);margin-top:2px}
+  .chev svg{width:23px;height:23px;transition:transform .2s}
+  .vsel.open .chev svg{transform:rotate(180deg)}
+  .vmenu{position:absolute;left:0;right:0;top:calc(100% + 9px);z-index:30;padding:6px;max-height:min(50vh,360px);
+    overflow:auto;background:var(--bg2);border:1.5px solid var(--or);border-radius:12px;
+    box-shadow:0 24px 56px rgba(0,0,0,.55);opacity:0;transform:translateY(-8px);pointer-events:none;transition:.15s}
+  .vsel.open .vmenu{opacity:1;transform:none;pointer-events:auto}
+  .vopt{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;background:none;border:0;cursor:pointer;
+    border-radius:8px;text-align:left;position:relative;color:inherit}
+  .vopt::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--or);
+    border-radius:3px;transform:scaleY(0);transition:transform .15s}
+  .vopt:hover{background:rgba(127,127,127,.13)}
+  .vopt:hover::before,.vopt[aria-selected=true]::before{transform:scaleY(1)}
+  .vopt img{width:30px;height:30px;border-radius:5px;image-rendering:pixelated}
+  .vopt b{flex:1;font-weight:600;font-size:16px}
+  .vopt small{color:var(--dim2);font-size:11.5px}
+  .big{flex:0 0 auto;height:72px;min-width:240px;padding:0 40px;display:flex;align-items:center;justify-content:center;
+    gap:13px;cursor:pointer;border:0;color:#241200;font-family:var(--dp);font-weight:700;font-size:24px;
+    letter-spacing:.12em;border-radius:12px;background:linear-gradient(180deg,var(--or2),var(--or) 52%,var(--or3));
+    clip-path:polygon(18px 0,100% 0,100% 100%,0 100%,0 18px);
+    box-shadow:0 12px 30px rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.45);transition:transform .12s,filter .15s}
+  .big:hover{transform:translateY(-2px);filter:brightness(1.06)}
+  .big svg{width:23px;height:23px}
+  .qp{width:clamp(280px,28vw,380px)}
+  .qp .inr{padding:15px 17px}
+  .qh{display:flex;align-items:center;gap:10px;margin-bottom:11px;font-family:var(--dp);font-weight:700;
+    font-size:15px;letter-spacing:.15em}
+  .qh svg{width:19px;height:19px;color:var(--or)}
+  .ql{display:flex;align-items:center;gap:12px;width:100%;padding:12px 13px;margin-top:8px;cursor:pointer;color:inherit;
+    background:rgba(127,127,127,.10);border:1px solid var(--line);border-radius:9px;font-size:15px;font-weight:500}
+  .ql:hover{border-color:var(--or);background:rgba(255,138,30,.12)}
+  .ql svg{width:22px;height:22px;color:var(--or);flex:0 0 auto}
+  .ql .ar{margin-left:auto;color:var(--dim2)}
+  .ql .ar svg{width:17px;height:17px;color:var(--dim2)}
+</style></head>
+<body>
+<div class="pg hasbg"><div class="wrap">
+  <div class="hero"><img src="assets/logo.png" alt="">
+    <div><h1>BLADE</h1><div class="lch">LAUNCHER</div>
+    <div class="sfd">STRONGER <i>/</i> FASTER <i>/</i> DEEPER</div></div></div>
+
+  <div class="dock">
+    <div class="np lp"><div class="inr">
+      <div class="vsel" id="vsel">
+        <button class="vbtn" id="vbtn" aria-haspopup="listbox" aria-expanded="false">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjN2I1NDMzIi8+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjkiIGZpbGw9IiM2YWE4NGYiLz48cmVjdCB5PSI5IiB3aWR0aD0iMjQiIGhlaWdodD0iMyIgZmlsbD0iIzNmNmIyZSIvPjxnIGZpbGw9IiM4ZmQwNmEiPjxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSI5IiB5PSIyIiB3aWR0aD0iNCIgaGVpZ2h0PSIzIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PGcgZmlsbD0iIzViM2YyNiI+PHJlY3QgeD0iMyIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSIxMyIgeT0iMTYiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PC9zdmc+" alt="">
+          <span class="vi"><b id="selN">1.8.8</b><span id="selS">Eaglercraft</span></span>
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="vmenu" id="vmenu" role="listbox"></div>
+      </div>
+      <button class="big" id="go"><svg viewBox="0 0 24 24" fill="#241200"><path d="M7 5v14l12-7z"/></svg>LAUNCH</button>
+    </div></div>
+
+    <div class="np qp"><div class="inr">
+      <div class="qh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>QUICK LINKS</div>
+      <button class="ql" onclick="bladeGo('custom')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1 5 5L21 12l-3 3-6-6 3-3z"/><path d="M12 9L4 17v3h3l8-8"/></svg>Custom Clients<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="ql" onclick="bladeGo('packs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>Resource Packs<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    </div></div>
+  </div>
+
+  <h2 class="ttl"><span class="ac"></span>All versions</h2>
+  <p class="lead">Every build is hosted with the launcher &mdash; click one to jump straight in. Only the version you pick gets downloaded.</p>
+  <div class="grid" id="grid"></div>
+</div></div>
+<script>
+(function(){
+  function apply(s){
+    if(!s) return;
+    if(s.theme) document.documentElement.setAttribute("data-theme",s.theme);
+    if(s.mode)  document.documentElement.setAttribute("data-mode",s.mode);
+  }
+  window.addEventListener("message",function(e){
+    var d=e.data||{};
+    if(d.type==="blade:settings") apply(d.settings);
+  });
+  try{ var r=localStorage.getItem("blade.settings"); if(r) apply(JSON.parse(r)); }catch(e){}
+  try{ parent.postMessage({type:"blade:get-settings"},"*"); }catch(e){}
+  window.bladeLaunch=function(url,name,meta){
+    try{ parent.postMessage({type:"blade:launch",url:url,name:name,meta:meta},"*"); }catch(e){}
+  };
+  window.bladeGo=function(p){ try{ parent.postMessage({type:"blade:navigate",page:p},"*"); }catch(e){} };
+})();
+</script>
+<script>
+var V=[{"name": "1.8.8", "file": "clients/1_8_8.html", "size": "18 MB", "desc": "EaglercraftX 1.8 u53 (signed). Classic combat era."}, {"name": "1.12.2", "file": "clients/1_12_2.html", "size": "25 MB", "desc": "Optimized u3 build. More blocks, smoother combat."}, {"name": "1.14.4", "file": "clients/1_14_4.html", "size": "34 MB", "desc": "Villages & pillagers update."}, {"name": "1.16", "file": "clients/1_16.html", "size": "45 MB", "desc": "Nether update."}, {"name": "1.20.6", "file": "clients/1_20_6.html", "size": "54 MB", "desc": "Trails & tales era blocks and mobs."}, {"name": "1.21.11", "file": "clients/1_21_11.html", "size": "47 MB", "desc": "Latest Minecraft. Deepslate and modern mobs."}, {"name": "26.2", "file": "clients/26_2.html", "size": "72 MB", "desc": "Newest EaglercraftX build (0.5)."}], GR="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjN2I1NDMzIi8+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjkiIGZpbGw9IiM2YWE4NGYiLz48cmVjdCB5PSI5IiB3aWR0aD0iMjQiIGhlaWdodD0iMyIgZmlsbD0iIzNmNmIyZSIvPjxnIGZpbGw9IiM4ZmQwNmEiPjxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSI5IiB5PSIyIiB3aWR0aD0iNCIgaGVpZ2h0PSIzIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PGcgZmlsbD0iIzViM2YyNiI+PHJlY3QgeD0iMyIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSIxMyIgeT0iMTYiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PC9zdmc+", cur=0;
+var $=function(i){return document.getElementById(i);};
+V.forEach(function(v,i){
+  var b=document.createElement("button");
+  b.className="vopt"; b.setAttribute("role","option");
+  b.innerHTML='<img src="'+GR+'"><b>'+v.name+'</b><small>'+v.size+'</small>';
+  b.addEventListener("click",function(){cur=i;paint();cl();});
+  $("vmenu").appendChild(b);
+  var c=document.createElement("div");
+  c.className="card";
+  c.innerHTML='<div class="t"><div class="ic"><img src="'+GR+'"></div><div><div class="nm">'+v.name+
+    '</div><div class="mt"><span class="tg hi">'+v.size+'</span></div></div></div>'+
+    '<p class="ds">'+v.desc+'</p><button class="btn mtop"><svg viewBox="0 0 24 24" fill="#241200"><path d="M7 5v14l12-7z"/></svg> LAUNCH</button>';
+  c.querySelector("button").addEventListener("click",function(){bladeLaunch(v.file,v.name,v.size);});
+  $("grid").appendChild(c);
+});
+var opts=[].slice.call($("vmenu").children);
+function paint(){ $("selN").textContent=V[cur].name; $("selS").textContent="Eaglercraft \u00b7 "+V[cur].size;
+  opts.forEach(function(o,i){o.setAttribute("aria-selected",i===cur?"true":"false");}); }
+function op(){ $("vsel").classList.add("open"); $("vbtn").setAttribute("aria-expanded","true"); }
+function cl(){ $("vsel").classList.remove("open"); $("vbtn").setAttribute("aria-expanded","false"); }
+$("vbtn").addEventListener("click",function(){ $("vsel").classList.contains("open")?cl():op(); });
+document.addEventListener("click",function(e){ if(!$("vsel").contains(e.target)) cl(); });
+$("go").addEventListener("click",function(){ var v=V[cur]; bladeLaunch(v.file,v.name,v.size); });
+paint();
+</script>
+</body></html>

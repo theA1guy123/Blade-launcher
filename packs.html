@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-theme="ember" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resource Packs &middot; Blade</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/blade.css">
+</head>
+<body>
+<div class="pg hasbg"><div class="wrap">
+  <h2 class="ttl"><span class="ac"></span>Resource Packs</h2>
+  <p class="lead">Texture packs bundled with Blade. Download one, then in your client open <b>Options &rarr; Resource Packs</b>, add the .zip and enable it.</p>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+  <div class="note">Match the pack's version to the client you're playing for the best results &mdash; a 1.8 pack on 1.20 will have missing textures. High-resolution packs can lower FPS on weaker machines.</div>
+</div></div>
+<script>
+(function(){
+  function apply(s){
+    if(!s) return;
+    if(s.theme) document.documentElement.setAttribute("data-theme",s.theme);
+    if(s.mode)  document.documentElement.setAttribute("data-mode",s.mode);
+  }
+  window.addEventListener("message",function(e){
+    var d=e.data||{};
+    if(d.type==="blade:settings") apply(d.settings);
+  });
+  try{ var r=localStorage.getItem("blade.settings"); if(r) apply(JSON.parse(r)); }catch(e){}
+  try{ parent.postMessage({type:"blade:get-settings"},"*"); }catch(e){}
+  window.bladeLaunch=function(url,name,meta){
+    try{ parent.postMessage({type:"blade:launch",url:url,name:name,meta:meta},"*"); }catch(e){}
+  };
+  window.bladeGo=function(p){ try{ parent.postMessage({type:"blade:navigate",page:p},"*"); }catch(e){} };
+})();
+</script>
+<script>
+var P=[{"name": "Vanilla aFPS", "mc": "1.21.11", "file": "packs/Vanilla_aFPS_1.21.11.zip", "size": "1.6 MB"}, {"name": "Resolute 16x", "mc": "1.12", "file": "packs/Resolute_16x_1.12.zip", "size": "11.3 MB"}, {"name": "Resolute 16x", "mc": "1.20", "file": "packs/Resolute_16x_1.20.zip", "size": "11.3 MB"}, {"name": "Potato", "mc": "1.20", "file": "packs/Potato_1.20.zip", "size": "0.2 MB"}, {"name": "MontFault 16x", "mc": "1.8", "file": "packs/MontFault_16x_1.8.zip", "size": "10.4 MB"}, {"name": "Rivera 16x", "mc": "1.8", "file": "packs/Rivera_16x_1.8.zip", "size": "16.1 MB"}, {"name": "Azula 16x", "mc": "1.8", "file": "packs/Azula_16x_1.8.zip", "size": "7.0 MB"}, {"name": "Fast Better Textures", "mc": "1.20.6", "file": "packs/Fast_Better_Textures_1.20.6.zip", "size": "0.1 MB"}, {"name": "Whimscape r2", "mc": "1.16", "file": "packs/Whimscape_1.16.zip", "size": "3.4 MB"}, {"name": "Rodrigo's Pack", "mc": "1.14", "file": "packs/Rodrigos_Pack_1.14.zip", "size": "3.0 MB"}, {"name": "Syscraft", "mc": "1.14", "file": "packs/Syscraft_1.14.zip", "size": "7.5 MB"}, {"name": "Rodrigo's Pack", "mc": "1.8", "file": "packs/Rodrigos_Pack_1.8.zip", "size": "3.3 MB"}, {"name": "Rodrigo's Pack", "mc": "1.12", "file": "packs/Rodrigos_Pack_1.12.zip", "size": "3.2 MB"}, {"name": "Rodrigo's Pack", "mc": "1.16", "file": "packs/Rodrigos_Pack_1.16.zip", "size": "3.2 MB"}], cur="All";
+var $=function(i){return document.getElementById(i);};
+var mcs=["All"].concat(P.map(function(p){return p.mc;}).filter(function(v,i,a){return a.indexOf(v)===i;}).sort());
+mcs.forEach(function(mc){
+  var b=document.createElement("button"); b.className=(mc==="All"?"on":""); b.textContent=(mc==="All"?"All":"MC "+mc);
+  b.addEventListener("click",function(){cur=mc;[].forEach.call($("chips").children,function(x){x.classList.remove("on");});
+    b.classList.add("on");render();});
+  $("chips").appendChild(b);
+});
+var DLI='<svg viewBox="0 0 24 24" fill="none" stroke="#241200" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10m0 0l-4-4m4 4l4-4M5 20h14"/></svg>';
+function render(){
+  var g=$("grid"); g.innerHTML="";
+  P.forEach(function(p){
+    if(cur!=="All"&&p.mc!==cur) return;
+    var d=document.createElement("div"); d.className="card";
+    d.innerHTML='<div class="t"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div><div><div class="nm">'+p.name+
+      '</div><div class="mt"><span class="tg hi">MC '+p.mc+'</span><span class="tg">'+p.size+'</span></div></div></div>'+
+      '<a class="btn mtop" href="'+p.file+'" download>'+DLI+' DOWNLOAD</a>';
+    g.appendChild(d);
+  });
+  if(!g.children.length) g.innerHTML='<div class="empty">No packs for that version yet.</div>';
+}
+render();
+</script>
+</body></html>

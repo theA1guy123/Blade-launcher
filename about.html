@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-theme="ember" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About &middot; Blade</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/blade.css">
+<style>
+  .top{display:flex;align-items:center;gap:20px;margin-bottom:24px}
+  .top img{width:92px;filter:drop-shadow(0 8px 22px rgba(0,0,0,.5))}
+  .top h1{margin:0;font-family:var(--dp);font-weight:700;font-size:44px;line-height:.9}
+  .top .lch{font-family:var(--dp);font-weight:600;font-size:14px;letter-spacing:.44em;color:var(--dim2);margin-top:6px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+  .stat{background:linear-gradient(180deg,var(--bg2),var(--bg1));border:1.5px solid var(--line);
+    border-radius:12px;padding:16px;text-align:center}
+  .stat b{display:block;font-family:var(--dp);font-weight:700;font-size:28px;color:var(--or2)}
+  .stat span{display:block;font-size:12px;color:var(--dim2);margin-top:4px;letter-spacing:.08em;font-family:var(--dp)}
+  .kv{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .kv:first-of-type{border-top:0}
+  .kv span{color:var(--dim2)}
+  .kv b{font-family:var(--dp);font-weight:600}
+</style>
+</head>
+<body>
+<div class="pg hasbg"><div class="wrap">
+  <div class="top">
+    <img src="assets/logo.png" alt="">
+    <div><h1>BLADE</h1><div class="lch">LAUNCHER</div></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="nv">7</b><span>VERSIONS</span></div>
+    <div class="stat"><b id="nc">9</b><span>CUSTOM CLIENTS</span></div>
+    <div class="stat"><b id="np">14</b><span>RESOURCE PACKS</span></div>
+  </div>
+
+  <div class="panel">
+    <h3>What this is</h3>
+    <p>Blade Launcher is a one-stop launcher for Eaglercraft &mdash; Minecraft that runs entirely in your browser. Pick a version, hit launch, and it starts right here. Nothing to install, no account, no Java. Custom clients, resource packs and a handful of launcher settings all live in the same place.</p>
+  </div>
+
+  <div class="panel">
+    <h3>How it works</h3>
+    <p>Each page of the launcher is its own file, loaded only when you open it, so the launcher itself starts fast and you only download the client you actually choose to play. Worlds and in-game settings are saved by each client inside your browser's storage.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Tips</h3>
+    <div class="kv"><span>Mouse not captured?</span><b>Click once on the game</b></div>
+    <div class="kv"><span>Back to the launcher</span><b>BLADE button, top left</b></div>
+    <div class="kv"><span>Resource pack missing textures</span><b>Match the pack to your version</b></div>
+    <div class="kv"><span>Low FPS</span><b>Lower render distance &amp; skip 88x+ packs</b></div>
+    <div class="kv"><span>Change the menu layout or colours</span><b>Settings</b></div>
+  </div>
+
+  <div class="panel">
+    <h3>Credits &amp; notice</h3>
+    <p>Eaglercraft was created by lax1dude; the custom clients and resource packs bundled here were made by their respective authors. Blade Launcher just gathers them into one place. This is a fan project and is not affiliated with, endorsed by, or connected to Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Studios.</p>
+  </div>
+
+  <div class="note">Built for Eaglercraft. <b>Play your way.</b></div>
+</div></div>
+
+<script>
+(function(){
+  function apply(s){
+    if(!s) return;
+    if(s.theme) document.documentElement.setAttribute("data-theme",s.theme);
+    if(s.mode)  document.documentElement.setAttribute("data-mode",s.mode);
+  }
+  window.addEventListener("message",function(e){
+    var d=e.data||{};
+    if(d.type==="blade:settings") apply(d.settings);
+  });
+  try{ var r=localStorage.getItem("blade.settings"); if(r) apply(JSON.parse(r)); }catch(e){}
+  try{ parent.postMessage({type:"blade:get-settings"},"*"); }catch(e){}
+})();
+</script>
+</body>
+</html>

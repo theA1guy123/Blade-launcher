@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" data-theme="ember" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custom Clients &middot; Blade</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/blade.css">
+<style>.tg.on{color:#7fdca6;border-color:rgba(127,220,166,.5)}</style>
+</head>
+<body>
+<div class="pg hasbg"><div class="wrap">
+  <h2 class="ttl"><span class="ac"></span>Custom Clients</h2>
+  <p class="lead">Modded builds with mod menus, custom GUIs and PvP tools. These replace the vanilla client entirely &mdash; pick one and it launches like any other version. Ones marked <b>ONLINE</b> stream from their own site, so they need internet and aren't bundled here.</p>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+  <div class="note">Custom clients keep their own settings and worlds separate from the normal versions. If a client's mod menu has its own keybind, it's usually <b>Right Shift</b> or <b>\\</b> &mdash; check that client's own menu.</div>
+</div></div>
+<script>
+(function(){
+  function apply(s){
+    if(!s) return;
+    if(s.theme) document.documentElement.setAttribute("data-theme",s.theme);
+    if(s.mode)  document.documentElement.setAttribute("data-mode",s.mode);
+  }
+  window.addEventListener("message",function(e){
+    var d=e.data||{};
+    if(d.type==="blade:settings") apply(d.settings);
+  });
+  try{ var r=localStorage.getItem("blade.settings"); if(r) apply(JSON.parse(r)); }catch(e){}
+  try{ parent.postMessage({type:"blade:get-settings"},"*"); }catch(e){}
+  window.bladeLaunch=function(url,name,meta){
+    try{ parent.postMessage({type:"blade:launch",url:url,name:name,meta:meta},"*"); }catch(e){}
+  };
+  window.bladeGo=function(p){ try{ parent.postMessage({type:"blade:navigate",page:p},"*"); }catch(e){} };
+})();
+</script>
+<script>
+var C=[{"name": "Precision Client", "file": "https://rocketmcc-network.github.io/clients/Precision/index.html", "size": "online", "mc": "1.8.8", "online": true, "desc": "Built on 1.8.8 u53 with QoL tweaks, bug fixes and a full PvP feature suite."}, {"name": "Apollo Client", "file": "https://rocketmcc-network.github.io/clients/apollo/index.html", "size": "online", "mc": "1.8", "online": true, "desc": "EaglercraftX 1.8 client build."}, {"name": "Modern Client (WASM)", "file": "https://wasm.modernclient.online/", "size": "online", "mc": "1.12.2", "online": true, "desc": "EaglercraftX 1.12 WASM-GC \u2014 the fast WASM engine, run from its own site."}, {"name": "Tuff Client", "file": "clients/tuff.html", "size": "44 MB", "mc": "1.8", "desc": "PvP client \u2014 ClickGUI, keystrokes, CPS and custom themes."}, {"name": "ShadowNet Client", "file": "clients/shadownet.html", "size": "48 MB", "mc": "1.12.2", "desc": "ShadowNet 1.12.2 WASM build with a built-in mod menu and custom HUD."}, {"name": "Astra Client", "file": "clients/astra.html", "size": "67 MB", "mc": "1.8", "desc": "Astra JS offline build \u2014 mod menu and visual tweaks."}, {"name": "EB Client Nextgen", "file": "clients/ebclient.html", "size": "24 MB", "mc": "1.8", "desc": "EB Client Nextgen CU5 \u2014 latest release."}, {"name": "GX Client", "file": "clients/gxclient.html", "size": "25 MB", "mc": "1.8", "desc": "GX Client with custom GUI and mods."}, {"name": "PixelClient 3", "file": "clients/pixelclient.html", "size": "25 MB", "mc": "1.12.2", "desc": "Custom-GUI client for 1.12.2 with mods and visual tweaks."}], cur="All";
+var $=function(i){return document.getElementById(i);};
+var mcs=["All"].concat(C.map(function(c){return c.mc;}).filter(function(v,i,a){return a.indexOf(v)===i;}).sort());
+mcs.forEach(function(mc){
+  var b=document.createElement("button"); b.className=(mc==="All"?"on":""); b.textContent=(mc==="All"?"All":"MC "+mc);
+  b.addEventListener("click",function(){cur=mc;[].forEach.call($("chips").children,function(x){x.classList.remove("on");});
+    b.classList.add("on");render();});
+  $("chips").appendChild(b);
+});
+function render(){
+  var g=$("grid"); g.innerHTML="";
+  C.forEach(function(c){
+    if(cur!=="All"&&c.mc!==cur) return;
+    var d=document.createElement("div"); d.className="card";
+    d.innerHTML='<div class="t"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1 5 5L21 12l-3 3-6-6 3-3z"/><path d="M12 9L4 17v3h3l8-8"/></svg></div><div><div class="nm">'+c.name+
+      '</div><div class="mt"><span class="tg hi">MC '+c.mc+'</span>'+(c.online?'<span class="tg on">ONLINE</span>':'<span class="tg">'+c.size+'</span>')+'</div></div></div>'+
+      '<p class="ds">'+c.desc+'</p><button class="btn mtop"><svg viewBox="0 0 24 24" fill="#241200"><path d="M7 5v14l12-7z"/></svg> LAUNCH</button>';
+    d.querySelector("button").addEventListener("click",function(){bladeLaunch(c.file,c.name,"MC "+c.mc+(c.online?" \u00b7 online":" \u00b7 "+c.size));});
+    g.appendChild(d);
+  });
+  if(!g.children.length) g.innerHTML='<div class="empty">No clients for that version yet.</div>';
+}
+render();
+</script>
+</body></html>

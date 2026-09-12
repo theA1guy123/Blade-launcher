@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-theme="ember">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blade Launcher</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--or:#ff8a1e;--or2:#ffb457;--or3:#ff6a00;
+    --ui:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --dp:'Chakra Petch','Rajdhani',var(--ui)}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{font-family:var(--ui);color:#fff;background:#07080a;overflow:hidden}
+  .bg{position:fixed;inset:0;background:url("assets/bg.jpg") center/cover no-repeat;z-index:0}
+  .bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(4,5,7,.72),rgba(4,5,7,.42) 45%,rgba(4,5,7,.90))}
+  .mid{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:0;padding:24px;text-align:center}
+  .lock{display:flex;align-items:center;gap:clamp(10px,2vw,24px)}
+  .lock img{width:clamp(76px,9vw,128px);filter:drop-shadow(0 8px 26px rgba(255,138,30,.55))}
+  h1{margin:0;font-family:var(--dp);font-weight:700;font-size:clamp(44px,8vw,100px);line-height:.84;
+    background:linear-gradient(180deg,#fff,#c3c9d2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lch{font-family:var(--dp);font-weight:600;font-size:clamp(14px,2.4vw,30px);letter-spacing:.5em;margin-top:8px;color:#eef1f5}
+  .sfd{margin-top:12px;display:flex;gap:14px;justify-content:center;font-family:var(--dp);font-weight:600;
+    font-size:clamp(11px,1.5vw,16px);letter-spacing:.24em;color:#e9edf2}
+  .sfd i{color:var(--or);font-style:normal}
+  .cont{margin-top:44px;min-width:260px;height:70px;padding:0 48px;display:inline-flex;align-items:center;
+    justify-content:center;gap:14px;cursor:pointer;border:0;color:#2a1400;
+    font-family:var(--dp);font-weight:700;font-size:25px;letter-spacing:.14em;border-radius:12px;
+    background:linear-gradient(180deg,var(--or2),var(--or) 52%,var(--or3));
+    clip-path:polygon(18px 0,100% 0,100% 100%,0 100%,0 18px);
+    box-shadow:0 14px 34px rgba(255,122,0,.45),inset 0 2px 0 rgba(255,255,255,.5);
+    transition:transform .12s,filter .15s}
+  .cont:hover{transform:translateY(-2px);filter:brightness(1.06)}
+  .cont:active{transform:translateY(0)}
+  .cont svg{width:23px;height:23px;fill:#2a1400}
+  .tiny{margin-top:18px;font-size:12.5px;color:#9aa1ab}
+  .foot{position:fixed;left:0;right:0;bottom:0;z-index:2;display:flex;justify-content:space-between;
+    align-items:flex-end;padding:0 clamp(18px,4vw,44px) 16px;font-family:var(--dp)}
+  .foot .l{font-weight:600;font-size:12px;letter-spacing:.2em;color:#aab0b9;display:flex;align-items:center;gap:9px}
+  .foot .l svg{width:14px;height:14px;fill:var(--or)}
+  .foot .r{text-align:right;font-style:italic;font-weight:700;line-height:1.05}
+  .foot .r .a{font-size:12px;color:#e7eaee}
+  .foot .r .b{font-size:18px;color:var(--or)}
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="mid">
+    <div class="lock">
+      <img src="assets/logo.png" alt="">
+      <div>
+        <h1>BLADE</h1>
+        <div class="lch">LAUNCHER</div>
+      </div>
+    </div>
+    <div class="sfd">STRONGER <i>/</i> FASTER <i>/</i> DEEPER</div>
+    <button class="cont" id="go"><svg viewBox="0 0 24 24"><path d="M7 5v14l12-7z"/></svg>CONTINUE</button>
+    <div class="tiny">Minecraft in your browser &mdash; nothing to install.</div>
+  </div>
+  <div class="foot">
+    <div class="l"><svg viewBox="0 0 24 24"><path d="M5 21L19 4l1 1L7 21z"/></svg>BUILT FOR EAGLERCRAFT</div>
+    <div class="r"><div class="a">PLAY YOUR WAY.</div><div class="b">BLADE LAUNCHER.</div></div>
+  </div>
+<script>
+  // Load the launcher shell in place, keeping this page as the light entry point.
+  document.getElementById("go").addEventListener("click", function(){
+    var f = document.createElement("iframe");
+    f.src = "launcher.html";
+    f.setAttribute("allow","fullscreen; pointer-lock; gamepad; autoplay; clipboard-read; clipboard-write; accelerometer; gyroscope; microphone; camera");
+    f.setAttribute("allowfullscreen","");
+    f.style.cssText="position:fixed;inset:0;width:100%;height:100%;border:0;z-index:10;background:#07080a";
+    document.body.appendChild(f);
+    f.addEventListener("load", function(){ try{ f.contentWindow.focus(); }catch(e){} });
+  });
+  // Enter also continues
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Enter") document.getElementById("go").click();
+  });
+</script>
+</body>
+</html>
