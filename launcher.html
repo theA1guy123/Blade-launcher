@@ -134,6 +134,7 @@
     <div class="snow"><span class="n" id="nn">&mdash;</span><span class="s" id="ns"></span></div>
     <button class="ib" id="rl" title="Reload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></button>
     <button class="ib" id="fs" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
+    <button class="ib" id="nt" title="Open in new tab (if typing/moving doesn't work here)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/></svg></button>
   </div>
   <div class="fw">
     <div class="ov" id="ov"><div>
@@ -143,7 +144,7 @@
       <div class="bar"><i></i></div>
       <div class="rt"><button id="rtry">Try again</button><button id="ovB">Back to launcher</button></div>
     </div></div>
-    <iframe id="game" title="Eaglercraft client"
+    <iframe id="game" title="Eaglercraft client" tabindex="0"
       allow="fullscreen; pointer-lock; gamepad; autoplay; clipboard-read; clipboard-write; accelerometer; gyroscope; microphone; camera"
       allowfullscreen></iframe>
   </div>
@@ -256,7 +257,11 @@
    var e=document.querySelector(".fw");
    document.fullscreenElement?document.exitFullscreen():(e.requestFullscreen&&e.requestFullscreen());
  });
+ $("nt").addEventListener("click",function(){ if(lastURL) window.open(lastURL,"_blank","noopener"); });
  document.querySelector(".fw").addEventListener("mousedown",focusGame);
+ document.querySelector(".fw").addEventListener("click",focusGame);
+ document.addEventListener("pointerlockchange",focusGame);
+ window.addEventListener("focus",function(){ if(stage.classList.contains("show")) focusGame(); });
  function dim(){ clearTimeout(bt); bt=setTimeout(function(){ sbar.classList.add("dim"); },3500); }
  ["mousemove","keydown"].forEach(function(ev){
    stage.addEventListener(ev,function(){ sbar.classList.remove("dim"); if(S.dimbar) dim(); });
