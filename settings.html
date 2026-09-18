@@ -13,7 +13,7 @@
   <p class="lead">Changes save instantly and apply across every page of the launcher.</p>
 
   <div class="panel">
-    <h3>Appearance</h3>
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="17" cy="13" r="2.5"/><path d="M12 2a10 10 0 1 0 4 19c-3-1-2-4 0-4 4 0 4-4 2-6"/></svg>Appearance</h3>
     <div class="row">
       <div><b>Accent colour</b><span>Recolours buttons, highlights and borders everywhere.</span></div>
       <div class="swatches" id="themes"></div>
@@ -25,18 +25,7 @@
   </div>
 
   <div class="panel">
-    <h3>Navigation</h3>
-    <div class="row">
-      <div><b>Menu position</b><span>Put the launcher menu down the side or across the top.</span></div>
-      <div class="seg" id="navseg">
-        <button data-v="side">Sidebar</button>
-        <button data-v="top">Top bar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <h3>Playing</h3>
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v14l12-7z"/></svg>Playing</h3>
     <div class="row">
       <div><b>Fullscreen on launch</b><span>Go fullscreen automatically when a client starts.</span></div>
       <div class="sw" id="swFs" role="switch" tabindex="0"></div>
@@ -48,10 +37,10 @@
   </div>
 
   <div class="panel">
-    <h3>Storage</h3>
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>Storage</h3>
     <p>Your worlds and in-game settings are saved by each client in this browser. Clearing site data for this page will erase them, so back up any worlds you care about from inside the client first.</p>
     <div class="row" style="border-top:1px solid var(--line);margin-top:14px">
-      <div><b>Reset launcher settings</b><span>Puts appearance and navigation back to defaults. Worlds are untouched.</span></div>
+      <div><b>Reset launcher settings</b><span>Puts appearance and playing options back to defaults. Worlds are untouched.</span></div>
       <button class="btn gh" id="reset" style="padding:0 18px">RESET</button>
     </div>
   </div>
@@ -62,7 +51,7 @@
 <script>
 (function(){
   var $=function(i){return document.getElementById(i);};
-  var DEF={theme:"ember",mode:"dark",nav:"side",dimbar:true,fslaunch:false};
+  var DEF={theme:"ember",mode:"dark",nav:"top",dimbar:true,fslaunch:false};
   var S=Object.assign({},DEF);
 
   var THEMES=[
@@ -84,7 +73,6 @@
     document.documentElement.setAttribute("data-theme",S.theme);
     document.documentElement.setAttribute("data-mode",S.mode);
     [].forEach.call($("themes").children,function(c){ c.classList.toggle("on",c.dataset.v===S.theme); });
-    [].forEach.call($("navseg").children,function(c){ c.classList.toggle("on",c.dataset.v===S.nav); });
     $("swMode").classList.toggle("on",S.mode==="light");
     $("swFs").classList.toggle("on",!!S.fslaunch);
     $("swDim").classList.toggle("on",!!S.dimbar);
@@ -95,9 +83,6 @@
     try{ parent.postMessage({type:"blade:settings-change",settings:S},"*"); }catch(e){}
   }
 
-  [].forEach.call($("navseg").children,function(b){
-    b.addEventListener("click",function(){ S.nav=b.dataset.v; commit(); });
-  });
   function tog(el,key,onVal,offVal){
     var fn=function(){ S[key]=(S[key]===onVal)?offVal:onVal; commit(); };
     el.addEventListener("click",fn);

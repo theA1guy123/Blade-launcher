@@ -9,53 +9,44 @@
 <link rel="stylesheet" href="assets/blade.css">
 <style>
   body{overflow:hidden}
-  .shell{position:fixed;inset:0;display:flex;background:var(--bg0)}
-  .shell.top{flex-direction:column}
+  .shell{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg0)}
 
-  /* ---- brand ---- */
-  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
-  .brand img{width:38px;height:38px;filter:drop-shadow(0 3px 8px rgba(255,138,30,.45))}
+  /* ---- top navigation ---- */
+  .nav{flex:0 0 auto;height:58px;display:flex;align-items:center;gap:20px;padding:0 clamp(14px,3vw,26px);
+    background:linear-gradient(180deg,rgba(20,23,28,.92),rgba(10,12,15,.92));
+    border-bottom:1px solid var(--line);backdrop-filter:blur(10px);position:relative;z-index:5}
+  .nav::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,138,30,.5),transparent)}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;flex:0 0 auto;
+    padding-right:20px;position:relative}
+  .brand::after{content:"";position:absolute;right:0;top:14px;bottom:14px;width:1px;background:var(--line2)}
+  .brand img{width:32px;height:32px;filter:drop-shadow(0 3px 9px rgba(255,138,30,.5))}
   .brand .bw{display:flex;flex-direction:column;line-height:1}
-  .brand .bw b{font-family:var(--dp);font-weight:700;font-size:21px;letter-spacing:.06em}
-  .brand .bw span{font-family:var(--dp);font-weight:500;font-size:9.5px;letter-spacing:.44em;color:var(--dim2);margin-top:3px}
-
-  /* ---- SIDEBAR mode ---- */
-  .nav{flex:0 0 auto;background:linear-gradient(180deg,var(--bg1),var(--bg0));position:relative;z-index:3}
-  .shell.side .nav{width:248px;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 14px}
-  .shell.side .nav .brand{padding:0 8px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
-  .shell.side .items{display:flex;flex-direction:column;gap:5px}
-  .shell.side .nb{display:flex;align-items:center;gap:12px;height:46px;padding:0 14px;border:0;background:none;
-    cursor:pointer;border-radius:9px;color:var(--dim);font-size:14.5px;font-weight:500;text-align:left;position:relative}
-  .shell.side .nb svg{width:19px;height:19px;color:var(--or);flex:0 0 auto}
-  .shell.side .nb:hover{background:rgba(127,127,127,.12);color:var(--ink)}
-  .shell.side .nb.on{color:#241200;background:linear-gradient(90deg,var(--or),var(--or3))}
-  .shell.side .nb.on svg{color:#241200}
-  .shell.side .navfoot{margin-top:auto;padding:12px 10px 0;border-top:1px solid var(--line);
-    font-family:var(--dp);font-style:italic;font-weight:700;line-height:1.1}
-  .shell.side .navfoot .a{font-size:11px;color:var(--dim2)}
-  .shell.side .navfoot .b{font-size:15px;color:var(--or)}
-
-  /* ---- TOPBAR mode ---- */
-  .shell.top .nav{height:66px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:22px;padding:0 18px}
-  .shell.top .nav .brand{padding-right:20px;position:relative}
-  .shell.top .nav .brand::after{content:"";position:absolute;right:4px;top:10px;bottom:10px;width:3px;
-    background:linear-gradient(180deg,transparent,var(--or),transparent);transform:skewX(-16deg)}
-  .shell.top .items{display:flex;align-items:center;gap:4px;flex:1}
-  .shell.top .nb{display:flex;align-items:center;gap:9px;height:44px;padding:0 17px;border:0;background:none;
-    cursor:pointer;border-radius:8px;color:var(--dim);font-size:14.5px;font-weight:500;position:relative}
-  .shell.top .nb svg{width:18px;height:18px;color:var(--or)}
-  .shell.top .nb:hover{color:var(--ink);background:rgba(127,127,127,.1)}
-  .shell.top .nb.on{color:var(--or2);background:none}
-  .shell.top .nb.on::after{content:"";position:absolute;left:14px;right:14px;bottom:5px;height:3px;border-radius:3px;
-    background:linear-gradient(90deg,var(--or3),var(--or2));box-shadow:0 0 12px rgba(255,138,30,.6)}
-  .shell.top .navfoot{display:none}
+  .brand .bw b{font-family:var(--dp);font-weight:700;font-size:18px;letter-spacing:.05em}
+  .brand .bw span{font-family:var(--dp);font-weight:500;font-size:8.5px;letter-spacing:.42em;color:var(--dim2);margin-top:3px}
+  .items{display:flex;align-items:center;gap:3px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  .items::-webkit-scrollbar{display:none}
+  .nb{display:flex;align-items:center;gap:8px;height:38px;padding:0 15px;border:0;background:none;cursor:pointer;
+    border-radius:9px;color:var(--dim);font-family:var(--ui);font-size:13.5px;font-weight:500;position:relative;
+    white-space:nowrap;transition:color .15s,background .15s}
+  .nb svg{width:17px;height:17px;color:var(--or);flex:0 0 auto;transition:transform .15s}
+  .nb:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+  .nb:hover svg{transform:scale(1.08)}
+  .nb.on{color:var(--ink)}
+  .nb.on::after{content:"";position:absolute;left:13px;right:13px;bottom:-1px;height:3px;border-radius:3px 3px 0 0;
+    background:linear-gradient(90deg,var(--or3),var(--or2));box-shadow:0 0 14px 1px rgba(255,138,30,.7)}
+  .navtag{flex:0 0 auto;font-family:var(--dp);font-style:italic;font-weight:700;font-size:12px;color:var(--or2);
+    letter-spacing:.04em;opacity:.9}
+  @media (max-width:720px){ .navtag{display:none} .nb .lb{display:none} .nb{padding:0 12px} .brand .bw{display:none} }
 
   /* ---- page frame ---- */
   .body{flex:1;min-width:0;min-height:0;position:relative;background:var(--bg0)}
   iframe.page{width:100%;height:100%;border:0;display:block;background:var(--bg0)}
-  .ldr{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg0);z-index:2;transition:opacity .25s}
+  .page.swap{animation:pageIn .32s cubic-bezier(.2,.7,.3,1)}
+  @keyframes pageIn{from{opacity:0;transform:translateY(8px) scale(.996)}to{opacity:1;transform:none}}
+  .ldr{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg0);z-index:2;transition:opacity .3s}
   .ldr.hide{opacity:0;pointer-events:none}
-  .spin{width:44px;height:44px;position:relative}
+  .spin{width:42px;height:42px;position:relative}
   .spin::before,.spin::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid transparent}
   .spin::before{border-top-color:var(--or);border-right-color:var(--or2);animation:sp 1s linear infinite}
   .spin::after{inset:8px;border-bottom-color:var(--or3);animation:sp 1.6s linear infinite reverse}
@@ -64,31 +55,31 @@
   /* ---- game stage (full window, over everything) ---- */
   .stage{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;background:#000}
   .stage.show{display:flex}
-  .sbar{height:46px;flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:0 14px;
-    background:linear-gradient(180deg,#0c0e12,#07080b);border-bottom:1px solid #2a2e36;transition:opacity .3s}
-  .sbar.dim{opacity:.26}
+  .sbar{height:44px;flex:0 0 auto;display:flex;align-items:center;gap:13px;padding:0 13px;
+    background:linear-gradient(180deg,#0c0e12,#07080b);border-bottom:1px solid #23272f;transition:opacity .3s}
+  .sbar.dim{opacity:.22}
   .sbar:hover{opacity:1}
-  .back{display:flex;align-items:center;gap:9px;height:32px;padding:0 15px 0 11px;cursor:pointer;border-radius:6px;
+  .back{display:flex;align-items:center;gap:9px;height:31px;padding:0 15px 0 11px;cursor:pointer;border-radius:7px;
     color:#fff;background:rgba(255,255,255,.07);border:1px solid #2a2e36;
-    font-family:var(--dp);font-weight:600;font-size:13px;letter-spacing:.06em}
-  .back:hover{border-color:var(--or);color:var(--or2)}
+    font-family:var(--dp);font-weight:600;font-size:12.5px;letter-spacing:.06em;transition:.15s}
+  .back:hover{border-color:var(--or);color:var(--or2);background:rgba(255,138,30,.08)}
   .back svg{width:15px;height:15px}
   .snow{flex:1;display:flex;align-items:baseline;gap:9px;min-width:0}
-  .snow .n{font-family:var(--dp);font-weight:600;font-size:15px;color:var(--or2)}
-  .snow .s{font-size:11.5px;color:#6a707a}
-  .ib{width:32px;height:32px;display:grid;place-items:center;background:none;border:1px solid #2a2e36;
-    border-radius:6px;color:#8b929c;cursor:pointer}
-  .ib:hover{color:#fff;border-color:var(--or)}
+  .snow .n{font-family:var(--dp);font-weight:600;font-size:14.5px;color:var(--or2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .snow .s{font-size:11px;color:#6a707a;white-space:nowrap}
+  .ib{width:31px;height:31px;display:grid;place-items:center;background:none;border:1px solid #2a2e36;
+    border-radius:7px;color:#8b929c;cursor:pointer;transition:.15s;flex:0 0 auto}
+  .ib:hover{color:#fff;border-color:var(--or);background:rgba(255,138,30,.08)}
   .ib svg{width:15px;height:15px}
   .fw{position:relative;flex:1;background:#000}
   iframe#game{width:100%;height:100%;border:0;display:block;background:#000}
   .ov{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:24px;z-index:2;
-    background:radial-gradient(90% 80% at 50% 40%,#14161d,#06080b);color:#fff}
+    background:radial-gradient(90% 80% at 50% 38%,#14161d,#06080b);color:#fff}
   .ov.show{display:grid}
-  .ov h3{font-family:var(--dp);font-weight:700;font-size:20px;margin:16px 0 8px}
-  .ov p{color:#aeb5bf;font-size:13.5px;max-width:46ch;margin:0 auto;line-height:1.55}
+  .ov h3{font-family:var(--dp);font-weight:700;font-size:19px;margin:16px 0 8px}
+  .ov p{color:#aeb5bf;font-size:13px;max-width:46ch;margin:0 auto;line-height:1.55}
   .ov .fn{font-family:var(--dp);color:var(--or2)}
-  .bar{width:min(340px,70vw);height:6px;border-radius:6px;background:rgba(255,255,255,.12);margin:20px auto 0;overflow:hidden}
+  .bar{width:min(320px,70vw);height:5px;border-radius:6px;background:rgba(255,255,255,.12);margin:20px auto 0;overflow:hidden}
   .bar i{display:block;height:100%;width:35%;border-radius:6px;background:linear-gradient(90deg,var(--or3),var(--or2));
     animation:sl 1.4s ease-in-out infinite}
   @keyframes sl{0%{transform:translateX(-100%)}100%{transform:translateX(340%)}}
@@ -96,28 +87,21 @@
   .ov.err .spin,.ov.err .bar{display:none}
   .rt{margin-top:20px;display:none;gap:10px;justify-content:center;flex-wrap:wrap}
   .ov.err .rt{display:flex}
-  .rt button{font-family:var(--dp);font-weight:600;font-size:13px;padding:9px 18px;border-radius:6px;cursor:pointer;
-    color:#fff;background:rgba(255,255,255,.08);border:1px solid #2a2e36}
+  .rt button{font-family:var(--dp);font-weight:600;font-size:13px;padding:9px 18px;border-radius:7px;cursor:pointer;
+    color:#fff;background:rgba(255,255,255,.08);border:1px solid #2a2e36;transition:.15s}
   .rt button:hover{border-color:var(--or)}
-
-  @media (max-width:820px){
-    .shell.side{flex-direction:column}
-    .shell.side .nav{width:auto;border-right:0;border-bottom:1px solid var(--line);
-      flex-direction:row;align-items:center;gap:14px;padding:10px 14px;overflow-x:auto}
-    .shell.side .nav .brand{padding:0 12px 0 0;border-bottom:0;margin:0;border-right:1px solid var(--line)}
-    .shell.side .items{flex-direction:row;gap:4px}
-    .shell.side .nb{height:40px;padding:0 12px;white-space:nowrap}
-    .shell.side .navfoot{display:none}
-    .nb .lb{display:none}
-  }
+  .hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;pointer-events:none;
+    font-size:11.5px;color:#c9ceD6;background:rgba(8,10,13,.82);border:1px solid #23272f;border-radius:999px;
+    padding:6px 14px;opacity:0;transition:opacity .3s;font-family:var(--ui)}
+  .fw.needclick .hint{opacity:1}
 </style>
 </head>
 <body>
-<div class="shell side" id="shell">
+<div class="shell" id="shell">
   <nav class="nav">
     <a class="brand" href="#" id="brandHome"><img src="assets/logo.png" alt=""><span class="bw"><b>BLADE</b><span>LAUNCHER</span></span></a>
     <div class="items" id="items"></div>
-    <div class="navfoot"><div class="a">PLAY YOUR WAY.</div><div class="b">BLADE LAUNCHER.</div></div>
+    <div class="navtag">PLAY YOUR WAY.</div>
   </nav>
   <div class="body">
     <div class="ldr" id="ldr"><div class="spin"></div></div>
@@ -136,7 +120,7 @@
     <button class="ib" id="fs" title="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
     <button class="ib" id="nt" title="Open in new tab (if typing/moving doesn't work here)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/></svg></button>
   </div>
-  <div class="fw">
+  <div class="fw" id="fw">
     <div class="ov" id="ov"><div>
       <div class="spin" style="margin:0 auto"></div>
       <h3 id="ovT">Loading</h3>
@@ -144,6 +128,7 @@
       <div class="bar"><i></i></div>
       <div class="rt"><button id="rtry">Try again</button><button id="ovB">Back to launcher</button></div>
     </div></div>
+    <div class="hint">Click the game to capture your mouse &amp; keyboard</div>
     <iframe id="game" title="Eaglercraft client" tabindex="0"
       allow="fullscreen; pointer-lock; gamepad; autoplay; clipboard-read; clipboard-write; accelerometer; gyroscope; microphone; camera"
       allowfullscreen></iframe>
@@ -158,7 +143,7 @@
  var PAGES=[
   {id:"home",    file:"home.html",    label:"Home",
    icon:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-2.5v9h-5v-6h-3v6h-5v-9H3z"/></svg>'},
-  {id:"custom",  file:"custom.html",  label:"Custom Clients",
+  {id:"custom",  file:"custom.html",  label:"Clients",
    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1 5 5L21 12l-3 3-6-6 3-3z"/><path d="M12 9L4 17v3h3l8-8"/></svg>'},
   {id:"packs",   file:"packs.html",   label:"Resource Packs",
    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>'},
@@ -169,13 +154,12 @@
  ];
 
  /* ---------- settings (shared with pages via postMessage) ---------- */
- var S={theme:"ember",mode:"dark",nav:"side",dimbar:true,fslaunch:false};
+ var S={theme:"ember",mode:"dark",nav:"top",dimbar:true,fslaunch:false};
  function load(){ try{ var r=localStorage.getItem("blade.settings"); if(r) S=Object.assign(S,JSON.parse(r)); }catch(e){} }
  function save(){ try{ localStorage.setItem("blade.settings",JSON.stringify(S)); }catch(e){} }
  function applyLocal(){
    document.documentElement.setAttribute("data-theme",S.theme);
    document.documentElement.setAttribute("data-mode",S.mode);
-   $("shell").className="shell "+(S.nav==="top"?"top":"side");
  }
  function pushToPage(){
    var w=$("page").contentWindow; if(!w) return;
@@ -203,6 +187,7 @@
  $("brandHome").addEventListener("click",function(e){e.preventDefault();go("home");});
  $("page").addEventListener("load",function(){
    $("ldr").classList.add("hide");
+   var pg=$("page"); pg.classList.remove("swap"); void pg.offsetWidth; pg.classList.add("swap");
    pushToPage();
    try{ $("page").contentWindow.focus(); }catch(e){}
  });
@@ -220,13 +205,13 @@
  });
 
  /* ---------- game stage ---------- */
- var stage=$("stage"),game=$("game"),ov=$("ov"),sbar=$("sbar"),bt=null,lastURL="",lastName="";
+ var stage=$("stage"),game=$("game"),ov=$("ov"),sbar=$("sbar"),fw=$("fw"),bt=null,lastURL="",lastName="";
  function launch(url,name,meta){
    lastURL=url; lastName=name||"Client";
    $("nn").textContent="Blade "+lastName;
    $("ns").textContent=meta||"";
    $("ovT").innerHTML="Loading <span class='fn'>"+lastName+"</span>";
-   $("ovM").textContent="Big client \u2014 the first load can take a moment on slower machines.";
+   $("ovM").textContent="Big client — the first load can take a moment on slower machines.";
    ov.className="ov show";
    stage.classList.add("show"); stage.setAttribute("aria-hidden","false");
    game.src=url;
@@ -235,8 +220,9 @@
  game.addEventListener("load",function(){
    if((game.src||"").indexOf("about:blank")>=0) return;
    ov.classList.remove("show");
+   fw.classList.add("needclick");
    focusGame(); setTimeout(focusGame,300);
-   if(S.fslaunch){ try{ document.querySelector(".fw").requestFullscreen(); }catch(e){} }
+   if(S.fslaunch){ setTimeout(goFullscreen,200); }
  });
  game.addEventListener("error",function(){
    ov.className="ov show err";
@@ -244,23 +230,34 @@
    $("ovM").textContent="That client file didn't load. Check your connection and try again.";
  });
  function focusGame(){ try{game.focus();}catch(e){} try{ if(game.contentWindow) game.contentWindow.focus(); }catch(e){} }
+ /* Fullscreen the GAME IFRAME itself so pointer-lock stays inside it (fixes lock breaking in fullscreen). */
+ function goFullscreen(){
+   try{
+     var el=game;
+     if(document.fullscreenElement){ document.exitFullscreen(); }
+     else if(el.requestFullscreen){ el.requestFullscreen(); }
+     else if(el.webkitRequestFullscreen){ el.webkitRequestFullscreen(); }
+   }catch(e){}
+ }
  function home(){
-   clearTimeout(bt); game.src="about:blank";
+   clearTimeout(bt);
+   try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+   game.src="about:blank";
    stage.classList.remove("show"); stage.setAttribute("aria-hidden","true"); sbar.classList.remove("dim");
+   fw.classList.remove("needclick");
    try{ $("page").contentWindow.focus(); }catch(e){}
  }
  $("bk").addEventListener("click",home);
  $("ovB").addEventListener("click",home);
  $("rtry").addEventListener("click",function(){ launch(lastURL,lastName,$("ns").textContent); });
  $("rl").addEventListener("click",function(){ ov.className="ov show"; game.src=game.src; });
- $("fs").addEventListener("click",function(){
-   var e=document.querySelector(".fw");
-   document.fullscreenElement?document.exitFullscreen():(e.requestFullscreen&&e.requestFullscreen());
- });
+ $("fs").addEventListener("click",goFullscreen);
  $("nt").addEventListener("click",function(){ if(lastURL) window.open(lastURL,"_blank","noopener"); });
- document.querySelector(".fw").addEventListener("mousedown",focusGame);
- document.querySelector(".fw").addEventListener("click",focusGame);
+ fw.addEventListener("mousedown",function(){ fw.classList.remove("needclick"); focusGame(); });
+ fw.addEventListener("click",focusGame);
  document.addEventListener("pointerlockchange",focusGame);
+ document.addEventListener("fullscreenchange",function(){ focusGame(); setTimeout(focusGame,120); });
+ document.addEventListener("webkitfullscreenchange",function(){ focusGame(); setTimeout(focusGame,120); });
  window.addEventListener("focus",function(){ if(stage.classList.contains("show")) focusGame(); });
  function dim(){ clearTimeout(bt); bt=setTimeout(function(){ sbar.classList.add("dim"); },3500); }
  ["mousemove","keydown"].forEach(function(ev){

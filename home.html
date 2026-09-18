@@ -7,67 +7,81 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/blade.css">
 <style>
-  .hero{padding:min(6vh,46px) 0 30px;display:flex;align-items:center;gap:clamp(12px,2vw,26px)}
-  .hero img{width:clamp(78px,9vw,124px);filter:drop-shadow(0 8px 26px rgba(255,138,30,.5))}
-  .hero h1{margin:0;font-family:var(--dp);font-weight:700;font-size:clamp(42px,7.4vw,92px);line-height:.84;
-    background:linear-gradient(180deg,var(--ink),color-mix(in srgb,var(--ink) 55%, transparent));
+  .hero{padding:min(5vh,34px) 0 22px;display:flex;align-items:center;gap:clamp(12px,2vw,22px)}
+  .hero img{width:clamp(56px,6.5vw,86px);filter:drop-shadow(0 8px 22px rgba(255,138,30,.5))}
+  .hero h1{margin:0;font-family:var(--dp);font-weight:700;font-size:clamp(34px,5.4vw,62px);line-height:.86;letter-spacing:.01em;
+    background:linear-gradient(180deg,var(--ink),color-mix(in srgb,var(--ink) 52%, transparent));
     -webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .lch{font-family:var(--dp);font-weight:600;font-size:clamp(14px,2.2vw,27px);letter-spacing:.5em;margin-top:8px}
-  .hero .sfd{margin-top:13px;display:flex;gap:15px;font-family:var(--dp);font-weight:600;
-    font-size:clamp(11px,1.4vw,15px);letter-spacing:.22em}
+  .hero .lch{font-family:var(--dp);font-weight:600;font-size:clamp(12px,1.7vw,19px);letter-spacing:.5em;margin-top:7px;color:var(--dim)}
+  .hero .sfd{margin-top:11px;display:flex;gap:12px;font-family:var(--dp);font-weight:600;
+    font-size:clamp(10px,1.15vw,13px);letter-spacing:.22em;color:var(--dim)}
   .hero .sfd i{color:var(--or);font-style:normal}
-  .dock{display:flex;gap:18px;align-items:stretch;flex-wrap:wrap;margin-bottom:26px}
-  .lp{flex:1 1 520px;max-width:780px}
-  .lp .inr{display:flex;align-items:center;gap:15px;padding:15px}
+
+  .dock{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap;margin-bottom:30px}
+  .launch{flex:1 1 480px;max-width:760px}
+  .launch .inr{padding:16px;display:flex;flex-direction:column;justify-content:center}
+  .lrow{display:flex;align-items:center;gap:13px}
   .vsel{position:relative;flex:1;min-width:0}
-  .vbtn{width:100%;height:72px;display:flex;align-items:center;gap:15px;padding:0 17px;cursor:pointer;text-align:left;
-    background:rgba(127,127,127,.10);border:1.5px solid var(--or);border-radius:12px}
-  .vbtn img{width:46px;height:46px;border-radius:7px;image-rendering:pixelated;flex:0 0 auto}
+  .vbtn{width:100%;height:66px;display:flex;align-items:center;gap:14px;padding:0 16px;cursor:pointer;text-align:left;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.12));
+    border:1px solid var(--line2);border-radius:12px;transition:border-color .15s}
+  .vbtn:hover{border-color:var(--or)}
+  .vbtn img{width:42px;height:42px;border-radius:8px;image-rendering:pixelated;flex:0 0 auto}
   .vi{flex:1;min-width:0}
-  .vi b{display:block;font-weight:600;font-size:25px;line-height:1.05}
-  .vi span{display:block;font-size:13.5px;color:var(--dim2);margin-top:2px}
-  .chev svg{width:23px;height:23px;transition:transform .2s}
+  .vi b{display:block;font-family:var(--dp);font-weight:700;font-size:22px;line-height:1.05}
+  .vi span{display:block;font-size:12.5px;color:var(--dim2);margin-top:2px}
+  .chev svg{width:20px;height:20px;transition:transform .2s;color:var(--dim2)}
   .vsel.open .chev svg{transform:rotate(180deg)}
-  .vmenu{position:absolute;left:0;right:0;top:calc(100% + 9px);z-index:30;padding:6px;max-height:min(50vh,360px);
-    overflow:auto;background:var(--bg2);border:1.5px solid var(--or);border-radius:12px;
-    box-shadow:0 24px 56px rgba(0,0,0,.55);opacity:0;transform:translateY(-8px);pointer-events:none;transition:.15s}
+  .vmenu{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:30;padding:6px;max-height:min(52vh,360px);
+    overflow:auto;background:var(--bg2);border:1px solid var(--or);border-radius:12px;
+    box-shadow:0 24px 56px rgba(0,0,0,.6);opacity:0;transform:translateY(-8px);pointer-events:none;transition:.16s}
   .vsel.open .vmenu{opacity:1;transform:none;pointer-events:auto}
-  .vopt{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;background:none;border:0;cursor:pointer;
-    border-radius:8px;text-align:left;position:relative;color:inherit}
+  .vopt{display:flex;align-items:center;gap:11px;width:100%;padding:9px 11px;background:none;border:0;cursor:pointer;
+    border-radius:9px;text-align:left;position:relative;color:inherit}
   .vopt::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--or);
     border-radius:3px;transform:scaleY(0);transition:transform .15s}
-  .vopt:hover{background:rgba(127,127,127,.13)}
+  .vopt:hover{background:rgba(255,255,255,.06)}
   .vopt:hover::before,.vopt[aria-selected=true]::before{transform:scaleY(1)}
-  .vopt img{width:30px;height:30px;border-radius:5px;image-rendering:pixelated}
-  .vopt b{flex:1;font-weight:600;font-size:16px}
-  .vopt small{color:var(--dim2);font-size:11.5px}
-  .big{flex:0 0 auto;height:72px;min-width:240px;padding:0 40px;display:flex;align-items:center;justify-content:center;
-    gap:13px;cursor:pointer;border:0;color:#241200;font-family:var(--dp);font-weight:700;font-size:24px;
-    letter-spacing:.12em;border-radius:12px;background:linear-gradient(180deg,var(--or2),var(--or) 52%,var(--or3));
-    clip-path:polygon(18px 0,100% 0,100% 100%,0 100%,0 18px);
-    box-shadow:0 12px 30px rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.45);transition:transform .12s,filter .15s}
+  .vopt img{width:28px;height:28px;border-radius:6px;image-rendering:pixelated}
+  .vopt b{flex:1;font-family:var(--dp);font-weight:600;font-size:15px}
+  .vopt small{color:var(--dim2);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .big{flex:0 0 auto;height:66px;min-width:190px;padding:0 34px;display:flex;align-items:center;justify-content:center;
+    gap:12px;cursor:pointer;border:0;color:#241200;font-family:var(--dp);font-weight:700;font-size:20px;
+    letter-spacing:.11em;border-radius:12px;background:linear-gradient(180deg,var(--or2),var(--or) 52%,var(--or3));
+    box-shadow:0 12px 30px -10px rgba(255,122,0,.7),inset 0 2px 0 rgba(255,255,255,.45);transition:transform .12s,filter .15s}
   .big:hover{transform:translateY(-2px);filter:brightness(1.06)}
-  .big svg{width:23px;height:23px}
-  .qp{width:clamp(280px,28vw,380px)}
-  .qp .inr{padding:15px 17px}
-  .qh{display:flex;align-items:center;gap:10px;margin-bottom:11px;font-family:var(--dp);font-weight:700;
-    font-size:15px;letter-spacing:.15em}
-  .qh svg{width:19px;height:19px;color:var(--or)}
-  .ql{display:flex;align-items:center;gap:12px;width:100%;padding:12px 13px;margin-top:8px;cursor:pointer;color:inherit;
-    background:rgba(127,127,127,.10);border:1px solid var(--line);border-radius:9px;font-size:15px;font-weight:500}
-  .ql:hover{border-color:var(--or);background:rgba(255,138,30,.12)}
-  .ql svg{width:22px;height:22px;color:var(--or);flex:0 0 auto}
+  .big:active{transform:translateY(0)}
+  .big svg{width:21px;height:21px}
+
+  .qp{width:clamp(260px,26vw,330px)}
+  .qp .inr{padding:16px}
+  .qh{display:flex;align-items:center;gap:9px;margin-bottom:10px;font-family:var(--dp);font-weight:700;
+    font-size:13px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+  .qh svg{width:17px;height:17px;color:var(--or)}
+  .ql{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;margin-top:9px;cursor:pointer;color:inherit;
+    background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);border:1px solid var(--line);border-radius:10px;
+    font-size:14.5px;font-weight:500;font-family:var(--ui);transition:border-color .15s,transform .12s,background .15s}
+  .ql:hover{border-color:var(--or);background:rgba(255,138,30,.08);transform:translateX(2px)}
+  .ql .qi{width:34px;height:34px;flex:0 0 auto;border-radius:9px;display:grid;place-items:center;
+    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.15));border:1px solid var(--line2)}
+  .ql .qi svg{width:18px;height:18px;color:var(--or2)}
   .ql .ar{margin-left:auto;color:var(--dim2)}
-  .ql .ar svg{width:17px;height:17px;color:var(--dim2)}
+  .ql .ar svg{width:16px;height:16px}
+  @media (max-width:600px){
+    .lrow{flex-direction:column;align-items:stretch;gap:11px}
+    .big{width:100%;min-width:0;height:60px;font-size:19px}
+    .qp{width:100%}
+  }
 </style></head>
 <body>
 <div class="pg hasbg"><div class="wrap">
-  <div class="hero"><img src="assets/logo.png" alt="">
+  <div class="hero rise"><img src="assets/logo.png" alt="">
     <div><h1>BLADE</h1><div class="lch">LAUNCHER</div>
     <div class="sfd">STRONGER <i>/</i> FASTER <i>/</i> DEEPER</div></div></div>
 
-  <div class="dock">
-    <div class="np lp"><div class="inr">
+  <div class="dock rise" style="animation-delay:.05s">
+    <div class="np launch"><div class="inr">
+      <div class="lrow">
       <div class="vsel" id="vsel">
         <button class="vbtn" id="vbtn" aria-haspopup="listbox" aria-expanded="false">
           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjN2I1NDMzIi8+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjkiIGZpbGw9IiM2YWE4NGYiLz48cmVjdCB5PSI5IiB3aWR0aD0iMjQiIGhlaWdodD0iMyIgZmlsbD0iIzNmNmIyZSIvPjxnIGZpbGw9IiM4ZmQwNmEiPjxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSI5IiB5PSIyIiB3aWR0aD0iNCIgaGVpZ2h0PSIzIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PGcgZmlsbD0iIzViM2YyNiI+PHJlY3QgeD0iMyIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSIxMyIgeT0iMTYiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PC9zdmc+" alt="">
@@ -77,12 +91,13 @@
         <div class="vmenu" id="vmenu" role="listbox"></div>
       </div>
       <button class="big" id="go"><svg viewBox="0 0 24 24" fill="#241200"><path d="M7 5v14l12-7z"/></svg>LAUNCH</button>
+      </div>
     </div></div>
 
     <div class="np qp"><div class="inr">
       <div class="qh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>QUICK LINKS</div>
-      <button class="ql" onclick="bladeGo('custom')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1 5 5L21 12l-3 3-6-6 3-3z"/><path d="M12 9L4 17v3h3l8-8"/></svg>Custom Clients<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
-      <button class="ql" onclick="bladeGo('packs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>Resource Packs<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="ql" onclick="bladeGo('packs')"><span class="qi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span>Resource Packs<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="ql" onclick="bladeGo('about')"><span class="qi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg></span>About<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
     </div></div>
   </div>
 
@@ -110,7 +125,7 @@
 })();
 </script>
 <script>
-var V=[{"name": "1.8.8", "file": "clients/1_8_8.html", "size": "14 MB", "desc": "EaglercraftX 1.8 u53. Classic combat era."}, {"name": "1.12.2", "file": "clients/1_12_2.html", "size": "24 MB", "desc": "Optimized u3 build. More blocks, smoother combat."}, {"name": "1.13.2", "file": "https://gx-launcher.github.io/game/1.13.2-wasm/index.html", "size": "online", "desc": "Update Aquatic \u2014 oceans and aquatic mobs."}, {"name": "1.14.4", "file": "clients/1_14_4.html", "size": "34 MB", "desc": "Villages & pillagers update."}, {"name": "1.16.5", "file": "clients/1_16_5.html", "size": "51 MB", "desc": "Nether update."}, {"name": "1.20.6", "file": "clients/1_20_6.html", "size": "53 MB", "desc": "Trails & tales era blocks and mobs."}, {"name": "1.21.11", "file": "clients/1_21_11.html", "size": "47 MB", "desc": "Latest Minecraft. Deepslate and modern mobs."}, {"name": "26.1.2", "file": "https://gx-launcher.github.io/game/26.1.2-wasm/index.html", "size": "online", "desc": "EaglercraftX 26.1.2 build."}, {"name": "26.2", "file": "clients/26_2.html", "size": "72 MB", "desc": "Newest EaglercraftX build (0.5)."}], GR="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjN2I1NDMzIi8+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjkiIGZpbGw9IiM2YWE4NGYiLz48cmVjdCB5PSI5IiB3aWR0aD0iMjQiIGhlaWdodD0iMyIgZmlsbD0iIzNmNmIyZSIvPjxnIGZpbGw9IiM4ZmQwNmEiPjxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSI5IiB5PSIyIiB3aWR0aD0iNCIgaGVpZ2h0PSIzIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PGcgZmlsbD0iIzViM2YyNiI+PHJlY3QgeD0iMyIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSIxMyIgeT0iMTYiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PC9zdmc+", cur=0;
+var V=[{"name": "1.8.8", "file": "clients/1_8_8.html", "size": "14 MB", "desc": "EaglercraftX 1.8 u53. Classic combat era."}, {"name": "1.12.2", "file": "clients/1_12_2.html", "size": "24 MB", "desc": "Optimized u3 build. More blocks, smoother combat."}, {"name": "1.13.2", "file": "https://gx-launcher.github.io/game/1.13.2-wasm/index.html", "size": "online", "desc": "Update Aquatic — oceans and aquatic mobs."}, {"name": "1.14.4", "file": "clients/1_14_4.html", "size": "34 MB", "desc": "Villages & pillagers update."}, {"name": "1.16.5", "file": "clients/1_16_5.html", "size": "51 MB", "desc": "Nether update."}, {"name": "1.20.6", "file": "clients/1_20_6.html", "size": "53 MB", "desc": "Trails & tales era blocks and mobs."}, {"name": "1.21.11", "file": "clients/1_21_11.html", "size": "47 MB", "desc": "Latest Minecraft. Deepslate and modern mobs."}, {"name": "26.1.2", "file": "https://gx-launcher.github.io/game/26.1.2-wasm/index.html", "size": "online", "desc": "EaglercraftX 26.1.2 build."}, {"name": "26.2", "file": "clients/26_2.html", "size": "72 MB", "desc": "Newest EaglercraftX build (0.5)."}], GR="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjN2I1NDMzIi8+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjkiIGZpbGw9IiM2YWE4NGYiLz48cmVjdCB5PSI5IiB3aWR0aD0iMjQiIGhlaWdodD0iMyIgZmlsbD0iIzNmNmIyZSIvPjxnIGZpbGw9IiM4ZmQwNmEiPjxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSI5IiB5PSIyIiB3aWR0aD0iNCIgaGVpZ2h0PSIzIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PGcgZmlsbD0iIzViM2YyNiI+PHJlY3QgeD0iMyIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSIxMyIgeT0iMTYiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PC9zdmc+", cur=0;
 var $=function(i){return document.getElementById(i);};
 V.forEach(function(v,i){
   var b=document.createElement("button");
@@ -127,7 +142,7 @@ V.forEach(function(v,i){
   $("grid").appendChild(c);
 });
 var opts=[].slice.call($("vmenu").children);
-function paint(){ $("selN").textContent=V[cur].name; $("selS").textContent="Eaglercraft \u00b7 "+V[cur].size;
+function paint(){ $("selN").textContent=V[cur].name; $("selS").textContent="Eaglercraft · "+V[cur].size;
   opts.forEach(function(o,i){o.setAttribute("aria-selected",i===cur?"true":"false");}); }
 function op(){ $("vsel").classList.add("open"); $("vbtn").setAttribute("aria-expanded","true"); }
 function cl(){ $("vsel").classList.remove("open"); $("vbtn").setAttribute("aria-expanded","false"); }
