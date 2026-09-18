@@ -13,8 +13,8 @@
   .th::after{content:"";position:absolute;inset:0;
     background-image:linear-gradient(rgba(0,0,0,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.16) 1px,transparent 1px);
     background-size:14px 14px;mix-blend-mode:overlay;opacity:.7}
-  .th .ini{font-family:var(--dp);font-weight:700;font-size:40px;color:rgba(255,255,255,.92);
-    text-shadow:0 3px 12px rgba(0,0,0,.45);z-index:1;letter-spacing:.02em}
+  .th .ico{z-index:1;width:44px;height:44px;color:rgba(255,255,255,.92);
+    filter:drop-shadow(0 3px 10px rgba(0,0,0,.4))}
   .th .res{position:absolute;top:9px;right:9px;z-index:1;font-family:var(--dp);font-weight:600;font-size:10px;
     letter-spacing:.06em;color:#fff;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.25);
     border-radius:999px;padding:2px 8px;backdrop-filter:blur(2px)}
@@ -79,7 +79,8 @@ function render(){
     var h=hue(p.name+p.mc);
     var d=document.createElement("div"); d.className="card pcard";
     d.innerHTML='<div class="th" style="background:linear-gradient(135deg,hsl('+h+',52%,44%),hsl('+((h+38)%360)+',58%,26%))">'+
-        '<span class="res">MC '+p.mc+'</span><span class="ini">'+initials(p.name)+'</span></div>'+
+        '<span class="res">MC '+p.mc+'</span>'+
+        '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v6l9 4 9-4V7"/><path d="M3 13v4l9 4 9-4v-4"/></svg></div>'+
       '<div class="pbody"><div class="nm">'+p.name+'</div>'+
         '<div class="mt"><span class="tg hi">MC '+p.mc+'</span><span class="tg">'+p.size+'</span></div>'+
         '<a class="btn dl mtop" href="'+p.file+'" download>'+DLI+' DOWNLOAD</a></div>';

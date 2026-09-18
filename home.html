@@ -72,6 +72,23 @@
     .big{width:100%;min-width:0;height:60px;font-size:19px}
     .qp{width:100%}
   }
+  /* version cards */
+  .vcard{padding:0;overflow:hidden}
+  .vcard .th{height:86px;position:relative;display:flex;align-items:center;gap:13px;padding:0 16px;
+    overflow:hidden;border-bottom:1px solid var(--line)}
+  .vcard .th::after{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(0,0,0,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.15) 1px,transparent 1px);
+    background-size:15px 15px;mix-blend-mode:overlay;opacity:.55}
+  .vcard .gi{width:40px;height:40px;image-rendering:pixelated;border-radius:8px;z-index:1;
+    box-shadow:0 3px 10px rgba(0,0,0,.4)}
+  .vcard .vn{z-index:1;font-family:var(--dp);font-weight:700;font-size:25px;color:#fff;
+    text-shadow:0 2px 10px rgba(0,0,0,.5);letter-spacing:.01em}
+  .vcard .res{position:absolute;top:9px;right:9px;z-index:1;font-family:var(--dp);font-weight:600;font-size:10px;
+    letter-spacing:.06em;color:#fff;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:2px 8px;backdrop-filter:blur(2px);text-transform:uppercase}
+  .vcard .cbody{padding:13px 15px 15px;display:flex;flex-direction:column;gap:10px}
+  .vcard .cbody .ds{color:var(--dim2);font-size:12px;line-height:1.5;margin:0}
+  .vcard .dl{height:40px;margin-top:auto}
 </style></head>
 <body>
 <div class="pg hasbg"><div class="wrap">
@@ -127,17 +144,20 @@
 <script>
 var V=[{"name": "1.8.8", "file": "clients/1_8_8.html", "size": "14 MB", "desc": "EaglercraftX 1.8 u53. Classic combat era."}, {"name": "1.12.2", "file": "clients/1_12_2.html", "size": "24 MB", "desc": "Optimized u3 build. More blocks, smoother combat."}, {"name": "1.13.2", "file": "https://gx-launcher.github.io/game/1.13.2-wasm/index.html", "size": "online", "desc": "Update Aquatic — oceans and aquatic mobs."}, {"name": "1.14.4", "file": "clients/1_14_4.html", "size": "34 MB", "desc": "Villages & pillagers update."}, {"name": "1.16.5", "file": "clients/1_16_5.html", "size": "51 MB", "desc": "Nether update."}, {"name": "1.20.6", "file": "clients/1_20_6.html", "size": "53 MB", "desc": "Trails & tales era blocks and mobs."}, {"name": "1.21.11", "file": "clients/1_21_11.html", "size": "47 MB", "desc": "Latest Minecraft. Deepslate and modern mobs."}, {"name": "26.1.2", "file": "https://gx-launcher.github.io/game/26.1.2-wasm/index.html", "size": "online", "desc": "EaglercraftX 26.1.2 build."}, {"name": "26.2", "file": "clients/26_2.html", "size": "72 MB", "desc": "Newest EaglercraftX build (0.5)."}], GR="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjN2I1NDMzIi8+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjkiIGZpbGw9IiM2YWE4NGYiLz48cmVjdCB5PSI5IiB3aWR0aD0iMjQiIGhlaWdodD0iMyIgZmlsbD0iIzNmNmIyZSIvPjxnIGZpbGw9IiM4ZmQwNmEiPjxyZWN0IHg9IjEiIHk9IjEiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSI5IiB5PSIyIiB3aWR0aD0iNCIgaGVpZ2h0PSIzIi8+PHJlY3QgeD0iMTciIHk9IjEiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PGcgZmlsbD0iIzViM2YyNiI+PHJlY3QgeD0iMyIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiLz48cmVjdCB4PSIxMyIgeT0iMTYiIHdpZHRoPSI1IiBoZWlnaHQ9IjQiLz48L2c+PC9zdmc+", cur=0;
 var $=function(i){return document.getElementById(i);};
+function hue(s){var h=17;for(var i=0;i<s.length;i++){h=(h*33+s.charCodeAt(i))>>>0;}return h%360;}
 V.forEach(function(v,i){
   var b=document.createElement("button");
   b.className="vopt"; b.setAttribute("role","option");
   b.innerHTML='<img src="'+GR+'"><b>'+v.name+'</b><small>'+v.size+'</small>';
   b.addEventListener("click",function(){cur=i;paint();cl();});
   $("vmenu").appendChild(b);
+  var vh=hue(v.name);
   var c=document.createElement("div");
-  c.className="card";
-  c.innerHTML='<div class="t"><div class="ic"><img src="'+GR+'"></div><div><div class="nm">'+v.name+
-    '</div><div class="mt"><span class="tg hi">'+v.size+'</span></div></div></div>'+
-    '<p class="ds">'+v.desc+'</p><button class="btn mtop"><svg viewBox="0 0 24 24" fill="#241200"><path d="M7 5v14l12-7z"/></svg> LAUNCH</button>';
+  c.className="card vcard";
+  c.innerHTML='<div class="th" style="background:linear-gradient(135deg,hsl('+vh+',48%,40%),hsl('+((vh+40)%360)+',54%,22%))">'+
+      '<img class="gi" src="'+GR+'"><span class="vn">'+v.name+'</span><span class="res">'+v.size+'</span></div>'+
+    '<div class="cbody"><p class="ds">'+v.desc+'</p>'+
+    '<button class="btn dl"><svg viewBox="0 0 24 24" fill="#241200"><path d="M7 5v14l12-7z"/></svg> LAUNCH</button></div>';
   c.querySelector("button").addEventListener("click",function(){bladeLaunch(v.file,v.name,v.size);});
   $("grid").appendChild(c);
 });
