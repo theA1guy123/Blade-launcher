@@ -139,6 +139,7 @@
 (function(){
  "use strict";
  var $=function(i){return document.getElementById(i);};
+ var BUILD="6"; // bump when launcher pages change, so cached iframes refresh
 
  var PAGES=[
   {id:"home",    file:"home.html",    label:"Home",
@@ -182,7 +183,7 @@
    cur=id;
    [].forEach.call($("items").children,function(c){c.classList.toggle("on",c.dataset.id===id);});
    $("ldr").classList.remove("hide");
-   $("page").src=p.file;
+   $("page").src=p.file+"?v="+BUILD;
  }
  $("brandHome").addEventListener("click",function(e){e.preventDefault();go("home");});
  $("page").addEventListener("load",function(){
