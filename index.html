@@ -257,8 +257,20 @@
  fw.addEventListener("mousedown",function(){ fw.classList.remove("needclick"); focusGame(); });
  fw.addEventListener("click",focusGame);
  document.addEventListener("pointerlockchange",focusGame);
- document.addEventListener("fullscreenchange",function(){ focusGame(); setTimeout(focusGame,120); });
- document.addEventListener("webkitfullscreenchange",function(){ focusGame(); setTimeout(focusGame,120); });
+ function onFsChange(){
+   try{
+     if(document.fullscreenElement){
+       // Capture Escape so it reaches the game (pause menu) instead of exiting
+       // fullscreen. Hold Escape (or use the fullscreen/back button) to leave.
+       if(navigator.keyboard && navigator.keyboard.lock) navigator.keyboard.lock(["Escape"]);
+     } else {
+       if(navigator.keyboard && navigator.keyboard.unlock) navigator.keyboard.unlock();
+     }
+   }catch(e){}
+   focusGame(); setTimeout(focusGame,120);
+ }
+ document.addEventListener("fullscreenchange",onFsChange);
+ document.addEventListener("webkitfullscreenchange",onFsChange);
  window.addEventListener("focus",function(){ if(stage.classList.contains("show")) focusGame(); });
  function dim(){ clearTimeout(bt); bt=setTimeout(function(){ sbar.classList.add("dim"); },3500); }
  ["mousemove","keydown"].forEach(function(ev){
